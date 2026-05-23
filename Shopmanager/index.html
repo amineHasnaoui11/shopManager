@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopManager — Product Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">◈</span>
+      <span class="brand-name">ShopManager</span>
+    </div>
+    <div class="nav-links">
+      <button class="nav-btn active" data-page="products">Products</button>
+      <button class="nav-btn" data-page="categories">Categories</button>
+      <button class="nav-btn" data-page="search">Search</button>
+    </div>
+    <div class="nav-actions">
+      <div class="cart-btn" id="cartBtn">
+        <span class="cart-icon">⊕</span>
+        <span class="cart-label">Cart</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN APP -->
+  <main class="app-container">
+
+    <!-- HERO BANNER -->
+    <section class="hero" id="hero">
+      <div class="hero-text">
+        <p class="hero-eyebrow">Live from DummyJSON API</p>
+        <h1 class="hero-title">Product<br/><em>Management</em></h1>
+        <p class="hero-sub">Browse, filter, add to cart. Full async JS showcase.</p>
+      </div>
+      <div class="hero-stats" id="heroStats">
+        <div class="stat-card"><span class="stat-num" id="statTotal">—</span><span class="stat-label">Products</span></div>
+        <div class="stat-card"><span class="stat-num" id="statCats">—</span><span class="stat-label">Categories</span></div>
+        <div class="stat-card"><span class="stat-num" id="statCart">0</span><span class="stat-label">In Cart</span></div>
+      </div>
+    </section>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar" id="toolbar">
+      <div class="toolbar-left">
+        <div class="filter-group">
+          <label>Category</label>
+          <select id="categoryFilter" class="select-input">
+            <option value="">All Categories</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Sort by</label>
+          <select id="sortFilter" class="select-input">
+            <option value="default">Default</option>
+            <option value="price-asc">Price ↑</option>
+            <option value="price-desc">Price ↓</option>
+            <option value="rating">Rating</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>View</label>
+          <div class="view-toggle">
+            <button class="view-btn active" id="gridViewBtn" title="Grid view">⊞</button>
+            <button class="view-btn" id="listViewBtn" title="List view">☰</button>
+          </div>
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <div class="search-box">
+          <span class="search-icon">⌕</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search products…" />
+          <button class="search-clear" id="searchClear" style="display:none">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGES -->
+    <div id="pageProducts" class="page active">
+      <div class="products-grid" id="productsGrid">
+        <!-- Products injected here -->
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+
+    <div id="pageCategories" class="page">
+      <div class="categories-grid" id="categoriesGrid"></div>
+    </div>
+
+    <div id="pageSearch" class="page">
+      <div class="search-page-hero">
+        <h2>Search Products</h2>
+        <div class="search-page-box">
+          <input type="text" id="searchPageInput" placeholder="Type to search anything…" class="search-page-input" />
+          <button id="searchPageBtn" class="btn-primary">Search</button>
+        </div>
+      </div>
+      <div class="products-grid" id="searchResultsGrid"></div>
+      <p class="search-info" id="searchInfo"></p>
+    </div>
+
+  </main>
+
+  <!-- TOAST -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="cart-close" id="cartClose">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Your cart is empty.</p>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-summary">
+        <div class="summary-row"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+        <div class="summary-row total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+      </div>
+      <button class="btn-checkout" id="checkoutBtn">Checkout</button>
+      <button class="btn-clear" id="clearCartBtn">Clear Cart</button>
+    </div>
+  </aside>
+
+  <!-- PRODUCT MODAL -->
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="product-modal" id="productModal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+
+  <!-- SCRIPTS (module order matters) -->
+  <script src="js/utils/helpers.js"></script>
+  <script src="js/utils/storage.js"></script>
+  <script src="js/utils/toast.js"></script>
+  <script src="js/api/api.js"></script>
+  <script src="js/modules/cart.js"></script>
+  <script src="js/modules/products.js"></script>
+  <script src="js/modules/categories.js"></script>
+  <script src="js/modules/search.js"></script>
+  <script src="js/modules/modal.js"></script>
+  <script src="js/modules/router.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
